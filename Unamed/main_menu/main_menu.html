@@ -15,7 +15,7 @@
         </div>
         <!-- ---end header--- -->
 
-        <div id = "content_wp" style = "padding: 10px;">
+        <div id = "content_wp">
             <div id = "cnt_summary" >
                 <div id = "cnt_summary_header" style = "height: 10px;">
                     <h2 style = "margin: 10px 0px 0px 10px; font-size: 30px;"> List of content</h2>
@@ -39,17 +39,32 @@
             <div id = "content" style = "line-height: 10px;">
                 <h2 id = "part1" style = "font-size: 30px; margin-bottom: -1px;">#About this website</h2>
                 <p style = "margin-left: 20px; font-size: 20px;"> A website contain bunch of my little games</p>
-
                 <h2 id = "part2" style = "font-size: 30px; margin-bottom: -1px;">#Some classic games</h2>
                 <div id = "classic_games">
-                    <button id = "extent_btn" style = "margin-left: 95%;"><img src="./materials/extent_icon.png" style = "width: 30px;"></button>
+                    <div id = "games_wp"> 
+                        <div class = "boder" ></div>
+                        <div id = "game_content">
+                            <button id = "extent_btn" style = "margin-left: 95%;"><img src="./materials/extent_icon.png" style = "width: 30px;"></button>
+                            <div id = "games" >
+                                <div class = "game_wp" style = "background-color:cadetblue; --delay : 0s ;">
+                                    <a href = "../snake_classic_game/snake_classic_game.html"  >
+                                        <img src = "./materials/snake_game_icon.png" style = "width: 90%; margin-left: 5%;">
+                                    </a>
+                                    <h4 style = "text-align: center;"> Classic_snake_game </h4>
+                                </div>
+                                <div class = "game_wp" style = "background-color:aquamarine; --delay : 1s; "></div>
+                                <div class = "game_wp" style = "background-color:burlywood; --delay : 2s; "></div>
+                                <div class = "game_wp" style = "background-color:blue; --delay : 3s; "></div>
+                                <div class = "game_wp" style = "background-color:brown; --delay : 4s; "></div>
+                            </div>
+                        </div>
+                        <div class = "boder" ></div>
+                    </div>
                 </div>
             </div>
-        
-
         </div>
         <!-- ---end content_wp--- -->
-
+        
         <div id = "footer">
 
         </div>
