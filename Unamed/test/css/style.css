@@ -1,0 +1,42 @@
+body{
+    background-image: url("../materials/bg.png");
+    background-size: cover;
+
+}
+
+#wrapper{
+    background-color: aqua;
+    width: 70%;
+    height: 200px;
+    margin: auto;
+    position: relative;
+    /* display: flex; */
+}
+
+#block1{
+    /* display: block; */
+    background-color: black;
+    width: 50%;
+    height: 100px;
+    /* display: none; */
+
+}
+#block2{
+    /* display: block; */
+    background-color: yellow;
+    width: 100px;
+    height: 100px;
+    /* display: none; */
+
+}#block3{
+    /* display: block; */
+    background-color: red;
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    /* display: none; */
+}
+
+#block1,#block2,#block3{
+    position: absolute;
+}

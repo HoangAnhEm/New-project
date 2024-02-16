@@ -1,0 +1,80 @@
+body{
+    background-image: url("../materials/bg.png");
+    background-size: cover;
+
+}
+
+#wrapper{
+    background-color: aqua;
+    width: 70%;
+    margin: auto;
+    height: 5000px;
+}
+#header{
+    background-color: brown;
+    display: flex;
+}
+
+#web_cap{
+    background-color: blueviolet;
+    text-align: center;
+    font-size: 100px;
+    font-family:'Courier New', Courier, monospace;
+    width: 50%;
+    margin-left: 25%;
+}
+
+
+#cnt_summary{
+    background-color: rgb(189, 172, 172);
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 30%;
+    border-radius: 10px;
+    padding: 1px;
+    border: 1px solid black; 
+}
+
+#cnt_summary_header{
+    margin-bottom: 30px;
+    height: 5px;
+}
+
+#cnt_summary_body{
+    /* background-color: blue; */
+    line-height: 25px;
+    padding-bottom: 1px;
+}
+
+
+#search_bar{
+    background-color: black;
+    right: 100px;
+    top: 50px;
+    position: fixed;
+    display: flex;
+}
+
+#search_box{
+    background-color: chartreuse;
+    width: 200px;
+    height: 50px;
+    display: flex;
+}
+#search_box.input{
+    font-size: 50px;
+
+}
+#search_icon{
+    width: 50px;
+
+}
+
+#classic_games{
+    background-color: rgb(189, 172, 172);
+    margin-left: 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 1px;
+    border: 1px solid black; 
+}
