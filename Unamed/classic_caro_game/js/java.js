@@ -40,6 +40,7 @@ panel.addEventListener("contextmenu", rightclick =>{
 
 panel.addEventListener("mousemove", mouse => {
     if(runnin){
+        panel_rect = panel.getBoundingClientRect();
         mo_x = mouse.clientX - panel_rect.left;
         mo_y = mouse.clientY - panel_rect.top;
         
@@ -154,9 +155,9 @@ class x_and_o{
         for(let i = 0; i < 4; i++){
             if((next(dir1[i], this) + next(dir2[i], this)) == 4){
                 if(cur_type == "x")
-                    alert("Y WIN");
-                else
                     alert("O WIN");
+                else
+                    alert("X WIN");
                 runnin = false;
                 break;
             }
