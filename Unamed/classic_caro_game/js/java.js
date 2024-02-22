@@ -1,249 +1,283 @@
 var panel = document.getElementById("game_panel");
 var ctx = panel.getContext("2d");
+var panel_rect = panel.getBoundingClientRect();
 
 var box_width = Math.floor(panel.width / 30);
 var box_height = Math.floor(panel.height / 20);
 
-// class kb_event{
-//     constructor(){
-//         this.move = "none";
-//         this.is_up = true;
-//     }
-// }
 
-// let Event_inf = new kb_event();
+var bg = new Image();
+bg.src = './materials/bg.png';
+var x_icon = new Image();
+x_icon.src = './materials/x_icon.png';
+var o_icon = new Image();
+o_icon.src = './materials/o_icon.png';
 
-var is_up = true;
+var x = 0, y = 0;
+var gap_x = 0, gap_y = 0;
+var mo_x, mo_y;
+var is_mou_up = true;
 
-
-class piece {
-    constructor(){
-        this.x, this.y;
-    }
-}
-
-class snake {
-    constructor(x , y){
-        this.head = new piece();
-        this.head.x = x;
-        this.head.y = y;
-        this.tail = new piece();
-        this.tail.x = x;
-        this.tail.y = y;
-        this.dir = "right";
-        this.pieces = [];
-        this.alive = true;
-    }
-
-    show(){
-        ctx.fillStyle = "red";
-        for(let _peice of this.pieces){
-            ctx.fillRect(_peice.x, _peice.y, box_width, box_height);
+panel.addEventListener("mousedown", mouse => {
+    if(runnin){
+        if(mouse.which == 1){
+            is_mou_up = false;
         }
-        ctx.fillStyle = "blue";
-        ctx.fillRect(this.head.x, this.head.y, box_width, box_height);
-    }
-
-    move(){
-        if(this.pieces.length >= 1){
-            console.log("move");
-            let tmp = new piece();
-            tmp.x = this.head.x;
-            tmp.y = this.head.y;
-            this.tail = this.pieces.pop()
-            switch (Snake.dir) {
-                case "right":
-                    console.log("right");
-                    this.head.x += box_width;
-                    break;
-                case "left":
-                    console.log("left");
-                    this.head.x -= box_width;
-                    break;
-                case "up":
-                    console.log("up");
-                    this.head.y -= box_height;
-                    break;
-                case "down":
-                    console.log("down");
-                    this.head.y += box_height;
-                    break;
-            }
-            this.pieces.unshift(tmp);
-        }
-
-        else{
-            this.tail.x = this.head.x;
-            this.tail.y = this.head.y;
-
-            switch (Snake.dir) {
-                case "right":
-                    console.log("right");
-                    this.head.x += box_width;
-                    break;
-                case "left":
-                    console.log("left");
-                    this.head.x -= box_width;
-                    break;
-                case "up":
-                    console.log("up");
-                    this.head.y -= box_height;
-                    break;
-                case "down":
-                    console.log("down");
-                    this.head.y += box_height;
-                    break;
-                }
-
-        }
-    }
-
-
-    collide_check(){
-        if(this.head.x == Food.x){
-            if(this.head.y == Food.y){
-                this.eat();
-            }
-        }
-
-        else if(this.head.x >= panel.width){
-            this.head.x = 0;
-        }
-        else if(this.head.x < 0){
-            this.head.x = panel.width - box_width;
-        }
-        else if(this.head.y >= panel.height){
-            this.head.y = 0;
-        }
-        else if(this.head.y < 0){
-            this.head.y = panel.height - box_height;
-        }
-
-        for(let _peice of this.pieces){
-            if(this.head.x == _peice.x){
-                if(this.head.y == _peice.y){
-                    this.die();
-                    break;
-                }
-            }
-        }
-
-
-
-    }
-
-    die(){
-        console.log("die");
-        this.alive = false;
-        clearInterval(game_loop);
-        alert("You Lost!");
-    }
-
-    eat(){
-        let tmp = new piece();
-        tmp.x = this.tail.x;
-        tmp.y = this.tail.y;
-
-        this.pieces.push(tmp);
-
-        console.log(this.pieces.length);
-        Food.spawn();
-    }
-
-}
-
-let Snake = new snake(0, 0);
-
-class food{
-    constructor(){
-        this.x, this.y;
-        this.spawn();
-    }
-
-    show(){
-        ctx.fillStyle = "white";
-        ctx.fillRect(this.x, this.y, box_width, box_height)
-    }
-
-    spawn(){
-        this.x = Math.floor( Math.random() * 30 ) * box_width;
-        this.y = Math.floor( Math.random() * 20) * box_height;
-
-        for(let _peice of Snake.pieces){
-            if(this.x == _peice.x && this.y == _peice.y){
-                this.spawn();
-            }
-        }
-
-    }
-
-}
-
-let Food = new food();
-
-function key_down(keyCode){
-    if(Snake.alive == true){
-        switch (keyCode) {
-            case 65:
-                dir = "left";
-                break;
-            case 87:
-                dir = "up";
-                break;
-            case 68:
-                dir = "right";
-                break;
-            case 83:
-                dir = "down";
-            break;     
-
-            default:
-                dir = "none";
-                break;
-
-        }
-        if(dir != Snake.dir && dir != "none"){
-            clearInterval(game_loop);
-            Snake.dir = dir;
-            process();
+        
+        else if(mouse.which == 3){
+            var box_x = Math.floor((mo_x - (x + gap_x) * scale) / ((panel.height) * scale / 18));
+            var box_y = Math.floor((mo_y - (y + gap_y) * scale) / ((panel.height) * scale / 18));
+            var tmp = new x_and_o(cur_type, box_x, box_y);
             
-            if(Snake.alive == true)
-                game_loop = setInterval(process, 500);
         }
+        process();
     }
-}
+})
 
-document.addEventListener("keydown" , key =>{
-    console.log(key.keyCode);
-    if (is_up == true){
-        key_down(key.keyCode);
-        is_up = false;
+panel.addEventListener("contextmenu", rightclick =>{
+    rightclick.preventDefault();
+})
+
+panel.addEventListener("mousemove", mouse => {
+    if(runnin){
+        mo_x = mouse.clientX - panel_rect.left;
+        mo_y = mouse.clientY - panel_rect.top;
+        
+        
+        if(is_mou_up == false){
+        gap_x = mouse.clientX - panel_rect.left - mo_x;
+        gap_y = mouse.clientY - panel_rect.top - mo_y;
     }
-            
+
+    process();
+    }
 })
 
 
 
+panel.addEventListener("mouseup", function(){
+    is_mou_up = true;
+    x += gap_x;
+    y += gap_y;
+    gap_x = gap_y = 0;
+})
 
-function key_up(){
-    is_up = true;
+var scale = 2;
+
+
+function mouse_scroll(event){
+    event.preventDefault();
+    if(scale >= 1 && scale <= 5){
+        scale -= event.deltaY * 0.1 / 100;
+        if(scale < 1 || scale > 5){
+            scale += event.deltaY * 0.1 / 100;
+        }
+    }
+    process();
 }
 
-document.addEventListener("keyup" , key_up)
+panel.addEventListener("wheel", event => mouse_scroll(event));
 
+class x_and_o{
+    constructor(type, x, y){
+        this.type = type;
+        if(this.type == "x"){
+            this.img = x_icon;
+        }
+        else{
+            this.img = o_icon;
+        }
+
+        this.x = x; 
+        this.y = y;
+
+        if(arr_x_and_o[this.x][this.y] == undefined){
+            arr_x_and_o[this.x][this.y] = this;
+            if(cur_type == "x")
+                cur_type = "o";
+            else    
+                cur_type = "x";
+        }
+
+        this.show();
+        this.win_check();
+        
+    }
+
+    show(){
+        ctx.drawImage(this.img, (x + gap_x) * scale + (this.x) * (panel.height) * scale / 18,(y + gap_y) * scale + (this.y) * (panel.height) * scale / 18, (panel.height) * scale / 18, (panel.height) * scale / 18)
+    }
+
+    win_check(){
+        function next(dir, start){
+            switch (dir) {
+                case "left":
+                    var next_ = arr_x_and_o[start.x - 1][start.y];
+                    break;
+                case "right":
+                    var next_ = arr_x_and_o[start.x + 1][start.y];
+                    break;
+                case "top":
+                    var next_ = arr_x_and_o[start.x][start.y - 1];
+                    break;                    
+                case "bot":
+                    var next_ = arr_x_and_o[start.x][start.y + 1];
+                    break;   
+                case "topleft":
+                    var next_ = arr_x_and_o[start.x - 1][start.y - 1];
+                    break;
+                case "topright":
+                    var next_ = arr_x_and_o[start.x + 1][start.y - 1];
+                    break;
+                case "botleft":
+                    var next_ = arr_x_and_o[start.x - 1][start.y + 1];
+                    break;                    
+                case "botright":
+                    var next_ = arr_x_and_o[start.x + 1][start.y + 1];
+                    break;                               
+
+            }
+            if(next_ != undefined){
+                if(next_.type == start.type){
+                    return 1 + next(dir, next_);
+                }
+                else
+                    return 0;
+            }
+            else
+                return 0;
+        }
+
+        var dir1 = ["left", "top", "topleft", "topright"];
+        var dir2 = ["right", "bot", "botright", "botleft"];
+
+        for(let i = 0; i < 4; i++){
+            if((next(dir1[i], this) + next(dir2[i], this)) == 4){
+                if(cur_type == "x")
+                    alert("Y WIN");
+                else
+                    alert("O WIN");
+                runnin = false;
+                break;
+            }
+        }
+    }
+}
+
+var arr_x_and_o = [];
+
+for(let i = 0; i <= 18; i++){
+    arr_x_and_o[i] = [];
+}
+
+
+
+
+
+var cur_type = "x";
+var runnin = true;
 function process(){
-    ctx.fillStyle = "black";
-    ctx.fillRect(0,0,panel.width, panel.height)
-    
-    Snake.move(Snake.dir);
-    Snake.collide_check();
-    Snake.show();
+    if(runnin){
+        ctx.fillStyle = "black";
+        ctx.fillRect(0,0,panel.width,panel.height);
+        ctx.drawImage(bg, (x + gap_x) * scale, (y + gap_y) * scale, (bg.width * panel.height / bg.width) * scale, (panel.height) * scale);
+        for(let i = 0; i <= 18; i++){
+            for(let tmp of arr_x_and_o[i]){
+                if(tmp != undefined){
+                    tmp.show();
+                }
+            }
+        }
+        
+        var img;
+        if(cur_type == "x")
+        img = x_icon;
+        else
+        img = o_icon;
 
-    Food.show();
-    // console.log("loop");
+        ctx.drawImage(img, mo_x - (((panel.height) * scale / 18) / 2) , mo_y - (((panel.height) * scale / 18) / 2) , (panel.height) * scale / 18, (panel.height) * scale / 18)
+    }
 
-    
 }
-var game_loop = setInterval(process, 500);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

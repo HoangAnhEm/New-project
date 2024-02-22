@@ -46,26 +46,21 @@ class snake {
 
     move(){
         if(this.pieces.length >= 1){
-            console.log("move");
             let tmp = new piece();
             tmp.x = this.head.x;
             tmp.y = this.head.y;
             this.tail = this.pieces.pop()
             switch (Snake.dir) {
                 case "right":
-                    console.log("right");
                     this.head.x += box_width;
                     break;
                 case "left":
-                    console.log("left");
                     this.head.x -= box_width;
                     break;
                 case "up":
-                    console.log("up");
                     this.head.y -= box_height;
                     break;
                 case "down":
-                    console.log("down");
                     this.head.y += box_height;
                     break;
             }
@@ -78,19 +73,15 @@ class snake {
 
             switch (Snake.dir) {
                 case "right":
-                    console.log("right");
                     this.head.x += box_width;
                     break;
                 case "left":
-                    console.log("left");
                     this.head.x -= box_width;
                     break;
                 case "up":
-                    console.log("up");
                     this.head.y -= box_height;
                     break;
                 case "down":
-                    console.log("down");
                     this.head.y += box_height;
                     break;
                 }
@@ -133,7 +124,6 @@ class snake {
     }
 
     die(){
-        console.log("die");
         this.alive = false;
         clearInterval(game_loop);
         alert("You Lost!");
@@ -146,7 +136,6 @@ class snake {
 
         this.pieces.push(tmp);
 
-        console.log(this.pieces.length);
         Food.spawn();
     }
 
@@ -214,7 +203,6 @@ function key_down(keyCode){
 }
 
 document.addEventListener("keydown" , key =>{
-    console.log(key.keyCode);
     if (is_up == true){
         key_down(key.keyCode);
         is_up = false;
@@ -233,14 +221,13 @@ document.addEventListener("keyup" , key_up)
 
 function process(){
     ctx.fillStyle = "black";
-    ctx.fillRect(0,0,panel.width, panel.height)
+    ctx.fillRect(0,0,panel.width, panel.height);
     
     Snake.move(Snake.dir);
     Snake.collide_check();
     Snake.show();
 
     Food.show();
-    // console.log("loop");
 
     
 }
