@@ -1,7 +1,6 @@
 var panel = document.getElementById("game_panel");
 var ctx = panel.getContext("2d");
 var panel_rect = new DOMRect(0, 0, panel.width, panel.height);
-var ctx_rect = panel.getBoundingClientRect();
 
 
 class Pile{
@@ -240,7 +239,6 @@ class Main_loop{
     }
 
     clear(){
-        console.log("clear");
         clearInterval(process.main_loop.process);
     }
 
@@ -289,10 +287,12 @@ class Preloop{
 
 function postloop_event_handler(mouse){
     if(process.postloop.mouse_track){
+    var ctx_rect = panel.getBoundingClientRect();
         process.postloop.mouse_track = false;   
-        console.log("vpa");
+        console.log("mouse_down");
         var mouse_rect = new DOMRect(mouse.clientX - ctx_rect.left, mouse.clientY - ctx_rect.top, 1, 1);
         if(coll_check(mouse_rect, process.postloop.home_btn_rect()) == true){
+            console.log("home");
             process.main_loop.clear();
             process.postloop.clear();
             process.pre_game();
@@ -300,6 +300,7 @@ function postloop_event_handler(mouse){
         }
         
         if(coll_check(mouse_rect, process.postloop.replay_btn_rect()) == true){
+            console.log("replay");
             process.postloop.clear();
             process.main_loop.clear();
             process.main_game();
@@ -356,6 +357,10 @@ class Postloop{
     
 }
 
+
+panel.addEventListener("wheel", event => {
+    event.preventDefault();
+});
 
 class Process{
     constructor(){
